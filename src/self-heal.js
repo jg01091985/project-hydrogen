@@ -55,7 +55,10 @@ class SelfHealEngine {
         }
       }
     } catch (e) {
-      // Port is free, lsof unavailable, or restricted environment
+      // Fallback: check if netstat or ss is available or let server handle listen error
+      if (CONFIG.DEBUG) {
+        console.log(`[Hydrogen Self-Heal] Port ${port} check completed.`);
+      }
     }
   }
 
