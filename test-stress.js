@@ -11,6 +11,8 @@ import { codeGraph } from './src/code-graph.js';
 import { selfEvolve } from './src/self-evolve.js';
 import { vectorRag } from './src/vector-rag.js';
 import { redTeam } from './src/red-team.js';
+import { grounding } from './src/grounding.js';
+import { memoryLedger } from './src/memory-ledger.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -122,5 +124,17 @@ const rpcResponse = await mcpServer.handleJsonRpc({
 assert.strictEqual(rpcResponse.jsonrpc, '2.0');
 assert.ok(Array.isArray(rpcResponse.result.tools));
 console.log('✅ Test 16 Passed: JSON-RPC 2.0 MCP protocol compliance verified.');
+
+// Test 17: Grounding Gatekeeper (Zero Hallucination Verification)
+const check1 = grounding.verifyGroundedResponse('Check src/proxy.js and src/nonexistent-file-xyz.js');
+assert.strictEqual(check1.grounded, false);
+assert.ok(check1.correctedText.includes('absent on disk'));
+console.log('✅ Test 17 Passed: Grounding gatekeeper hallucination trap verified.');
+
+// Test 18: Zero-Amnesia Episodic Memory Ledger
+memoryLedger.recordEpisode('How does vault work?', 'Vault uses AES-256-GCM.');
+const ctx = memoryLedger.retrieveRelevantContext('vault');
+assert.ok(ctx.recentEpisodes.length >= 1);
+console.log('✅ Test 18 Passed: Zero-amnesia memory ledger verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
