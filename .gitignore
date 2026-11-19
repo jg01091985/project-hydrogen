@@ -1,0 +1,7 @@
+node_modules/
+.browser-profile/
+.env
+*.log
+.DS_Store
+.hydrogen-learning.json
+.hydrogen-telemetry.json

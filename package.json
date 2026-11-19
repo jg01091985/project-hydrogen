@@ -1,0 +1,35 @@
+{
+  "name": "hydrogen",
+  "version": "1.1.0",
+  "type": "module",
+  "description": "Enterprise Claude Code CLI powered by Google AI (Gemini) with anti-bot protection, dual SDK/browser-bridge routing, and robust translation",
+  "bin": {
+    "hydrogen": "./bin/hydrogen"
+  },
+  "main": "src/cli.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node src/cli.js"
+  },
+  "keywords": [
+    "claude",
+    "gemini",
+    "proxy",
+    "ai",
+    "enterprise"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/genai": "^3.5.0",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "https-proxy-agent": "^9.1.0",
+    "node-fetch": "^3.3.2",
+    "puppeteer": "^25.18.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "socks-proxy-agent": "^10.1.0",
+    "ws": "^8.23.0"
+  }
+}
