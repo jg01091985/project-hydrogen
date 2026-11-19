@@ -29,6 +29,7 @@ import { quantumBenchmark } from './src/quantum-benchmark.js';
 import { gitOps } from './src/gitops-daemon.js';
 import { imScrambler } from './src/im-scrambler.js';
 import { hierarchicalPlanner } from './src/hierarchical-planner.js';
+import { tokenOptimizer } from './src/token-optimizer.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -253,5 +254,11 @@ assert.strictEqual(bigPlan.phases.length, 4);
 const advanced = hierarchicalPlanner.advancePlan(bigPlan.planId);
 assert.strictEqual(advanced.phases[0].status, 'COMPLETED');
 console.log('✅ Test 35 Passed: Hierarchical small-plan / big-plan strategist verified.');
+
+// Test 36: Self-Improving Token Optimizer & Practicality Counter
+const optRes = tokenOptimizer.optimizeIteratively('Analyze this codebase carefully.', 'Here is the comprehensive analysis of proxy.js and router modules.');
+assert.strictEqual(optRes.improved, true);
+assert.ok(optRes.practicality > 0);
+console.log('✅ Test 36 Passed: Self-improving token optimizer & practicality counter verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
