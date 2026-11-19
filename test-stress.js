@@ -24,6 +24,7 @@ import { stealthEvasion } from './src/stealth-evasion.js';
 import { calcEngine } from './src/calculator-engine.js';
 import { instanceBridge } from './src/instance-bridge.js';
 import { swarmMesh } from './src/swarm-mesh.js';
+import { terminalSpawner } from './src/terminal-spawner.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -218,5 +219,9 @@ assert.strictEqual(reg.registered, true);
 const peers = swarmMesh.discoverPeers();
 assert.ok(Array.isArray(peers));
 console.log('✅ Test 30 Passed: Decentralized inter-instance swarm mesh verified.');
+
+// Test 31: Cross-Platform Visible Terminal Spawner
+assert.ok(typeof terminalSpawner.spawnVisibleTerminal === 'function');
+console.log('✅ Test 31 Passed: Terminal spawner module verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
