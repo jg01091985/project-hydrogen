@@ -31,8 +31,11 @@ Project Hydrogen bridges Anthropic Messages API specifications (`/v1/messages`) 
 - **`sdk-bridge.js`**: Direct Google GenAI SDK interface with exponential backoff jitter and error classification.
 - **`browser-bridge.js`**: Headless browser automation worker pool with resilient lifecycle tracking and session persistence.
 - **`anti-bot.js`**: God-tier stealth evasion (`puppeteer-extra-plugin-stealth`), User-Agent rotation, proxy pooling, and human-like request jitter.
+- **`vault.js`**: AES-256-GCM authenticated credential and session profile encryption vault.
+- **`failover.js`**: Zero-downtime autonomous failover matrix and circuit breaker (`CLOSED` ➔ `OPEN` ➔ `HALF_OPEN`).
+- **`mcp-server.js`**: Native Model Context Protocol (MCP) server plugin for extensible local tool discovery and execution.
 - **`orchestration.js`**: Subagent parallel task distribution and state map cleanup.
-- **`consensus.js`**: Quantum multi-vote verification quorum.
+- **`consensus.js`**: Quantum multi-vote verification quorum and multi-model consensus ensembling.
 - **`self-heal.js`**: Automated port reclamation and preflight system checks.
 - **`self-learn.js`**: Asynchronous execution metrics and feedback persistence.
 - **`translator.js`**: Robust multi-strategy JSON extraction for tool calls.
@@ -103,7 +106,7 @@ HEADLESS=true
 
 ## 🧪 Testing & Quality Assurance
 
-Run the comprehensive unit test suite and orchestration stress tests:
+Run the comprehensive unit test suite and orchestration stress tests (covering 10 enterprise validation tests including Vault, Failover Matrix, and MCP Server):
 ```bash
 npm test
 node test-stress.js
