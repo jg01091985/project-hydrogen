@@ -44,6 +44,7 @@ import { astRefactor } from './src/ast-refactor.js';
 import { universalRunner } from './src/universal-runner.js';
 import { astPatcher } from './src/ast-patcher.js';
 import { steValidator } from './src/ste-validator.js';
+import { typeSafeValidator } from './src/type-safe-validator.js';
 import assert from 'assert';
 import fs from 'fs';
 
@@ -391,14 +392,21 @@ console.log('✅ Test 47 Passed: End-to-end encrypted swarm mesh verified.');
 			assert.strictEqual(steRes.valid, true);
 			console.log('✅ Test 54 Passed: ASD-STE100 Simplified Technical English compliance verified.');
 
-console.log('\n🎉 All 54 Hydrogen AGI & orchestration tests passed successfully without gaps!');
+			// Test 55: Runtime JSON Type-Safe Schema Validation
+			const toolVal = typeSafeValidator.validateToolCall({ name: "Bash", input: { command: "ls" } });
+			assert.strictEqual(toolVal.valid, true);
+			const badToolVal = typeSafeValidator.validateToolCall("invalid");
+			assert.strictEqual(badToolVal.valid, false);
+			console.log('✅ Test 55 Passed: Runtime JSON type-safe validation verified.');
+
+console.log('\n🎉 All 55 Hydrogen AGI & orchestration tests passed successfully without gaps!');
 
 try {
   const statePath = './.hydrogen/loop/state.json';
   if (fs.existsSync(statePath)) {
     const state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
     state.cycle_id += 1;
-    state.test_status = { total: 54, passed: 54, failed: 0 };
+    state.test_status = { total: 55, passed: 55, failed: 0 };
     state.last_changes.unshift({
       cycle_id: state.cycle_id,
       task: "Automated test telemetry sync & multi-cycle hardening via test-stress.js",
