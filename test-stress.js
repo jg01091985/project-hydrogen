@@ -21,6 +21,7 @@ import { checkpointManager } from './src/checkpoint.js';
 import { schemaAdapter } from './src/schema-adapter.js';
 import { masterOrchestrator } from './src/master-orchestrator.js';
 import { stealthEvasion } from './src/stealth-evasion.js';
+import { calcEngine } from './src/calculator-engine.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -199,5 +200,10 @@ assert.ok(script.includes('toDataURL'));
 const jitter = stealthEvasion.generateHumanJitter();
 assert.ok(jitter >= 75 && jitter <= 225);
 console.log('✅ Test 27 Passed: Military-grade stealth evasion engine verified.');
+
+// Test 28: Scientific Calculator Engine & Floating Point Precision Guard
+const calcRes = calcEngine.calculate('0.1 + 0.2');
+assert.strictEqual(calcRes, 0.3);
+console.log('✅ Test 28 Passed: Scientific calculator engine verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
