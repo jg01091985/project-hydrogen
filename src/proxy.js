@@ -110,7 +110,12 @@ export function createServer() {
         } catch (sdkError) {
           if (clientDisconnected) return;
           if (CONFIG.DEBUG) {
-            console.warn('[Hydrogen Proxy] SDK Engine failed, falling back to Browser Bridge:', sdkError.message);
+            console.warn('[Hydrogen Proxy] SDK Engine failed:', sdkError.message);
+          }
+          if (res.headersSent) {
+            res.write(`event: error\ndata: ${JSON.stringify({ error: sdkError.message })}\n\n`);
+            res.end();
+            return;
           }
         }
       }
