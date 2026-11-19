@@ -15,6 +15,8 @@ import { grounding } from './src/grounding.js';
 import { memoryLedger } from './src/memory-ledger.js';
 import { urlSentinel } from './src/url-sentinel.js';
 import { selectorResilience } from './src/selector-resilience.js';
+import { tokenCache } from './src/token-cache.js';
+import { linterFixer } from './src/linter-fixer.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -148,5 +150,17 @@ console.log('✅ Test 19 Passed: Upstream URL sentinel verified.');
 const selectors = selectorResilience.getFallbackSelectors('inputBox');
 assert.ok(selectors.length >= 3);
 console.log('✅ Test 20 Passed: Selector resilience fallback engine verified.');
+
+// Test 21: Token Cache & Semantic Memoization
+tokenCache.set('Hello Hydrogen', 'Cached Response 123');
+const cacheRes = tokenCache.get('Hello Hydrogen');
+assert.strictEqual(cacheRes.hit, true);
+assert.strictEqual(cacheRes.response, 'Cached Response 123');
+console.log('✅ Test 21 Passed: Token cache semantic memoization verified.');
+
+// Test 22: Deterministic Code Linter & Auto-Fixer
+const fixedCode = linterFixer.lintAndFix('const x = 1;;;');
+assert.strictEqual(fixedCode, 'const x = 1;');
+console.log('✅ Test 22 Passed: Deterministic code linter & auto-fixer verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
