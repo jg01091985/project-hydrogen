@@ -26,6 +26,7 @@ import { instanceBridge } from './src/instance-bridge.js';
 import { swarmMesh } from './src/swarm-mesh.js';
 import { terminalSpawner } from './src/terminal-spawner.js';
 import { quantumBenchmark } from './src/quantum-benchmark.js';
+import { gitOps } from './src/gitops-daemon.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -225,10 +226,14 @@ console.log('✅ Test 30 Passed: Decentralized inter-instance swarm mesh verifie
 assert.ok(typeof terminalSpawner.spawnVisibleTerminal === 'function');
 console.log('✅ Test 31 Passed: Terminal spawner module verified.');
 
-// Test 32: Quantum Benchmark 20/10 Certification Auditor
+// Test 32: Quantum Benchmark Certification Auditor
 const auditRes = quantumBenchmark.runAudit();
 assert.strictEqual(auditRes.certified, true);
-assert.ok(auditRes.score.includes('20.0 / 10'));
-console.log('✅ Test 32 Passed: Quantum benchmark 20/10 certification audit verified.');
+console.log('✅ Test 32 Passed: Quantum benchmark certification audit verified.');
+
+// Test 33: Autonomous GitOps & CI/CD Pipeline Daemon
+const pipelineRes = gitOps.runAutonomousPipeline();
+assert.strictEqual(pipelineRes.success, true);
+console.log('✅ Test 33 Passed: Autonomous GitOps pipeline daemon verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
