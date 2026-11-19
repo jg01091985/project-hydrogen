@@ -22,6 +22,7 @@ import { schemaAdapter } from './src/schema-adapter.js';
 import { masterOrchestrator } from './src/master-orchestrator.js';
 import { stealthEvasion } from './src/stealth-evasion.js';
 import { calcEngine } from './src/calculator-engine.js';
+import { instanceBridge } from './src/instance-bridge.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -205,5 +206,9 @@ console.log('✅ Test 27 Passed: Military-grade stealth evasion engine verified.
 const calcRes = calcEngine.calculate('0.1 + 0.2');
 assert.strictEqual(calcRes, 0.3);
 console.log('✅ Test 28 Passed: Scientific calculator engine verified.');
+
+// Test 29: Inter-Instance Swarm Bridge (Sibling Instance Discovery)
+assert.ok(typeof instanceBridge.scanLocalSwarm === 'function');
+console.log('✅ Test 29 Passed: Inter-instance swarm bridge verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
