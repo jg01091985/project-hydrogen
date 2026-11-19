@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  hydrogen:
+    build: .
+    container-name: project-hydrogen
+    ports:
+      - "31337:31337"
+    environment:
+      - HYDROGEN_PORT=31337
+      - HYDROGEN_DEBUG=true
+      - HEADLESS=true
+    volumes:
+      - ./.browser-profile:/app/.browser-profile
+      - ./.hydrogen-checkpoints:/app/.hydrogen-checkpoints
+    restart: unless-stopped
