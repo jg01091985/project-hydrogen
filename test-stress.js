@@ -113,4 +113,14 @@ const audit = redTeam.runSecurityAudit(WebToolTranslator);
 assert.strictEqual(audit.status, 'SECURE');
 console.log('✅ Test 15 Passed: Autonomous Red-Team security audit verified.');
 
+// Test 16: JSON-RPC 2.0 MCP Protocol Compliance
+const rpcResponse = await mcpServer.handleJsonRpc({
+  jsonrpc: '2.0',
+  method: 'tools/list',
+  id: 1
+});
+assert.strictEqual(rpcResponse.jsonrpc, '2.0');
+assert.ok(Array.isArray(rpcResponse.result.tools));
+console.log('✅ Test 16 Passed: JSON-RPC 2.0 MCP protocol compliance verified.');
+
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');

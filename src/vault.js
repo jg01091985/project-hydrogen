@@ -1,7 +1,13 @@
 import crypto from 'crypto';
 
 class VaultManager {
-  constructor(secretKey = process.env.HYDROGEN_VAULT_KEY || 'hydrogen-secure-default-key-32bytes!!') {
+  constructor(secretKey = process.env.HYDROGEN_VAULT_KEY) {
+    if (!secretKey) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error('Fatal Security Error: HYDROGEN_VAULT_KEY environment variable is required in production.');
+      }
+      secretKey = 'hydrogen-secure-development-fallback-key-32bytes';
+    }
     this.key = crypto.createHash('sha256').update(secretKey).digest();
   }
 
