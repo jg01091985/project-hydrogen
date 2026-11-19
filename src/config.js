@@ -24,7 +24,7 @@ function parsePositiveInt(val, defaultVal) {
 
 export const CONFIG = {
   PORT: parsePort(process.env.HYDROGEN_PORT || process.env.PORT),
-  GEMINI_MODEL: process.env.GEMINI_MODEL || 'gemini-2.5-pro',
+  GEMINI_MODEL: process.env.GEMINI_MODEL || 'gemini-4-hydrogen',
   GEMINI_API_KEY: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '',
   GEMINI_API_KEYS: process.env.GEMINI_API_KEYS ? process.env.GEMINI_API_KEYS.split(',').map(k => k.trim()).filter(Boolean) : [],
   GOOGLE_AI_URL: process.env.GOOGLE_AI_URL || 'https://aistudio.google.com/',
