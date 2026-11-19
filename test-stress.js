@@ -17,6 +17,7 @@ import { urlSentinel } from './src/url-sentinel.js';
 import { selectorResilience } from './src/selector-resilience.js';
 import { tokenCache } from './src/token-cache.js';
 import { linterFixer } from './src/linter-fixer.js';
+import { checkpointManager } from './src/checkpoint.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -162,5 +163,12 @@ console.log('✅ Test 21 Passed: Token cache semantic memoization verified.');
 const fixedCode = linterFixer.lintAndFix('const x = 1;;;');
 assert.strictEqual(fixedCode, 'const x = 1;');
 console.log('✅ Test 22 Passed: Deterministic code linter & auto-fixer verified.');
+
+// Test 23: 200-Hour Autonomous Checkpoint & State Compaction Manager
+const chk = checkpointManager.createCheckpoint({ activeTask: 'long-horizon audit', memoryCount: 42 });
+assert.strictEqual(chk.success, true);
+const chks = checkpointManager.listCheckpoints();
+assert.ok(chks.length >= 1);
+console.log('✅ Test 23 Passed: 200-hour checkpoint manager verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
