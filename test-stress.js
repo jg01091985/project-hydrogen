@@ -18,6 +18,7 @@ import { selectorResilience } from './src/selector-resilience.js';
 import { tokenCache } from './src/token-cache.js';
 import { linterFixer } from './src/linter-fixer.js';
 import { checkpointManager } from './src/checkpoint.js';
+import { schemaAdapter } from './src/schema-adapter.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -170,5 +171,11 @@ assert.strictEqual(chk.success, true);
 const chks = checkpointManager.listCheckpoints();
 assert.ok(chks.length >= 1);
 console.log('✅ Test 23 Passed: 200-hour checkpoint manager verified.');
+
+// Test 24: Autonomous API Schema & Protocol Compatibility Adapter
+const normalized = schemaAdapter.normalizeIncomingRequest({ model: 'claude-3-5-sonnet', messages: [{ role: 'user', content: 'test' }] });
+assert.strictEqual(normalized.model, 'claude-3-5-sonnet');
+assert.ok(normalized.system);
+console.log('✅ Test 24 Passed: Schema compatibility adapter verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
