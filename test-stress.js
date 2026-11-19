@@ -28,6 +28,7 @@ import { terminalSpawner } from './src/terminal-spawner.js';
 import { quantumBenchmark } from './src/quantum-benchmark.js';
 import { gitOps } from './src/gitops-daemon.js';
 import { imScrambler } from './src/im-scrambler.js';
+import { hierarchicalPlanner } from './src/hierarchical-planner.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -244,5 +245,13 @@ assert.strictEqual(scrambled.scrambled, true);
 const descrambled = imScrambler.descramble(scrambled);
 assert.strictEqual(descrambled, secretMsg);
 console.log('✅ Test 34 Passed: Polymorphic IM scrambler verified.');
+
+// Test 35: Small-Plan / Big-Plan Hierarchical Strategic Planner
+const bigPlan = hierarchicalPlanner.decomposeBigPlan('Disrupt global AGI benchmarks');
+assert.strictEqual(bigPlan.status, 'INITIALIZED');
+assert.strictEqual(bigPlan.phases.length, 4);
+const advanced = hierarchicalPlanner.advancePlan(bigPlan.planId);
+assert.strictEqual(advanced.phases[0].status, 'COMPLETED');
+console.log('✅ Test 35 Passed: Hierarchical small-plan / big-plan strategist verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
