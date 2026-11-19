@@ -27,6 +27,7 @@ import { swarmMesh } from './src/swarm-mesh.js';
 import { terminalSpawner } from './src/terminal-spawner.js';
 import { quantumBenchmark } from './src/quantum-benchmark.js';
 import { gitOps } from './src/gitops-daemon.js';
+import { imScrambler } from './src/im-scrambler.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -235,5 +236,13 @@ console.log('✅ Test 32 Passed: Quantum benchmark certification audit verified.
 const pipelineRes = gitOps.runAutonomousPipeline();
 assert.strictEqual(pipelineRes.success, true);
 console.log('✅ Test 33 Passed: Autonomous GitOps pipeline daemon verified.');
+
+// Test 34: Polymorphic IM / Prompt Scrambler & Privacy Obfuscator
+const secretMsg = 'Classified AI instruction set alpha-9';
+const scrambled = imScrambler.scramble(secretMsg);
+assert.strictEqual(scrambled.scrambled, true);
+const descrambled = imScrambler.descramble(scrambled);
+assert.strictEqual(descrambled, secretMsg);
+console.log('✅ Test 34 Passed: Polymorphic IM scrambler verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
