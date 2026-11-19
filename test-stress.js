@@ -82,4 +82,9 @@ assert.strictEqual(ensemble.consensus, 'output_A');
 assert.strictEqual(ensemble.confidence, 67);
 console.log('✅ Test 10 Passed: Multi-model consensus ensembling verified.');
 
+// Test 11: Computer Use / Desktop Control tools in MCP
+const computerTools = mcpServer.listTools().filter(t => t.name.startsWith('computer_'));
+assert.ok(computerTools.length >= 4);
+console.log('✅ Test 11 Passed: Computer Use desktop control tools verified.');
+
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
