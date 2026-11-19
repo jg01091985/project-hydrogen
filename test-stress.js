@@ -30,6 +30,8 @@ import { gitOps } from './src/gitops-daemon.js';
 import { imScrambler } from './src/im-scrambler.js';
 import { hierarchicalPlanner } from './src/hierarchical-planner.js';
 import { tokenOptimizer } from './src/token-optimizer.js';
+import { workspaceIndexer } from './src/workspace-indexer.js';
+import { atomicTx } from './src/atomic-transaction.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -260,5 +262,19 @@ const optRes = tokenOptimizer.optimizeIteratively('Analyze this codebase careful
 assert.strictEqual(optRes.improved, true);
 assert.ok(optRes.practicality > 0);
 console.log('✅ Test 36 Passed: Self-improving token optimizer & practicality counter verified.');
+
+// Test 37: Cursor-Style Workspace Symbol Indexer
+const idxRes = workspaceIndexer.indexWorkspace();
+assert.ok(idxRes.indexedFiles >= 10);
+const found = workspaceIndexer.findSymbol('VaultManager');
+assert.ok(found.length >= 1);
+console.log('✅ Test 37 Passed: Workspace symbol indexer verified.');
+
+// Test 38: Multi-File Atomic Transaction Manager (Composer Style)
+const txRes = atomicTx.beginTransaction(['src/vault.js']);
+assert.strictEqual(txRes.success, true);
+const rbRes = atomicTx.rollback();
+assert.strictEqual(rbRes.success,true);
+console.log('✅ Test 38 Passed: Multi-file atomic transaction manager verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
