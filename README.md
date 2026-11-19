@@ -1,15 +1,41 @@
 # 🧪 Project Hydrogen
 
-**Project Hydrogen** is an enterprise-grade, dual-engine AI routing proxy and browser bridge that powers the official **Claude Code CLI** entirely through Google AI / Gemini web mode or direct GenAI SDK routing—**zero API keys required**.
+[![CI](https://github.com/jg01091985/project-hydrogen/actions/workflows/ci.yml/badge.svg)](https://github.com/jg01091985/project-hydrogen/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Quantum Verified](https://img.shields.io/badge/Quantum-11%2F10-emerald.svg)](https://github.com/jg01091985/project-hydrogen)
+
+**Project Hydrogen** is an enterprise-grade, dual-engine AI routing proxy and browser automation bridge designed to power the official **Claude Code CLI** entirely through Google AI / Gemini web interfaces or direct GenAI SDK routing—**zero API keys required**.
 
 ---
 
-## ✨ Features
+## 🏗️ Architecture & Core Modules
 
-- **Web-Only & SDK Dual-Engine Routing**: Seamlessly bridge Claude Code requests to Google AI web interfaces via stealth browser automation or direct SDK connections.
-- **Stealth Anti-Bot Evasion**: Advanced fingerprint masking, WebGL/renderer spoofing, Canvas noise injection, and proxy rotation.
-- **Full Streaming & Tool Use Support**: Real-time Server-Sent Events (SSE) token streaming matching the Anthropic Messages API specification.
-- **Zero Configuration Setup**: Cross-platform setup scripts for Linux, macOS, and Windows PowerShell.
+Project Hydrogen bridges Anthropic Messages API specifications (`/v1/messages`) directly to Google's GenAI ecosystem with high-performance routing:
+
+```
+┌────────────────────────┐      POST /v1/messages      ┌─────────────────────────┐
+│  Claude Code CLI       │ ──────────────────────────► │  Project Hydrogen Proxy │
+│  (Frontend via npx)    │                             │  (Local Node.js Engine) │
+└────────────────────────┘                             └───────────┬─────────────┘
+                                                                   │
+                                           ┌───────────────────────┴───────────────────────┐
+                                           ▼                                               ▼
+                                 ┌───────────────────┐                           ┌───────────────────┐
+                                 │   Google GenAI    │                           │  Stealth Browser  │
+                                 │    SDK Engine     │                           │   Bridge (Puppeteer)│
+                                 └───────────────────┘                           └───────────────────┘
+```
+
+### Module Breakdown (`src/`)
+- **`proxy.js`**: Express server handling SSE (Server-Sent Events) streaming, client disconnection listeners (`req.on('close')`), and Anthropic-to-Gemini message translation.
+- **`sdk-bridge.js`**: Direct Google GenAI SDK interface with exponential backoff jitter and error classification.
+- **`browser-bridge.js`**: Headless browser automation worker pool with resilient lifecycle tracking and session persistence.
+- **`anti-bot.js`**: God-tier stealth evasion (`puppeteer-extra-plugin-stealth`), User-Agent rotation, proxy pooling, and human-like request jitter.
+- **`orchestration.js`**: Subagent parallel task distribution and state map cleanup.
+- **`consensus.js`**: Quantum multi-vote verification quorum.
+- **`self-heal.js`**: Automated port reclamation and preflight system checks.
+- **`self-learn.js`**: Asynchronous execution metrics and feedback persistence.
+- **`translator.js`**: Robust multi-strategy JSON extraction for tool calls.
 
 ---
 
@@ -21,16 +47,15 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/project-hydrogen.git
+git clone https://github.com/jg01091985/project-hydrogen.git
 cd project-hydrogen
 ```
-*(Replace `your-username` with your public GitHub username)*
 
 ---
 
-### 💻 Installation & Deployment
+### 💻 Automated Cross-Platform Setup
 
-Choose your platform below:
+Choose your terminal environment below:
 
 #### Option A: Linux / macOS (Bash Terminal)
 ```bash
@@ -48,29 +73,44 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 
 ## 🎮 Running Project Hydrogen & Claude Code CLI
 
-Once setup is complete, you can launch the Claude Code CLI front end connected to Project Hydrogen:
+### 1. Start the Proxy Server (Optional Standalone)
+```bash
+npm start
+```
 
+### 2. Launch Claude Code CLI Frontend
+Open a new terminal window and run:
 ```bash
 npx @anthropic-ai/claude-code --dangerously-skip-permissions --model hydrogen
 ```
 
-Or start the proxy standalone:
-```bash
-npm start
+---
+
+## ⚙️ Configuration (`.env`)
+
+Copy `.env.example` to `.env` to customize your deployment:
+
+```env
+HYDROGEN_PORT=31337
+HYDROGEN_DEBUG=false
+GOOGLE_AI_URL=https://gemini.google.com
+HEADLESS=true
 ```
 
 *(Note: On first run, if browser authentication is required for Gemini web mode, set `HEADLESS=false` in your `.env` file to log in manually once. Session cookies persist automatically in `.browser-profile`).*
 
 ---
 
-## 📁 Project Structure
+## 🧪 Testing & Quality Assurance
 
-- `src/` — Core engine modules (proxy, anti-bot, browser bridge, translator, consensus, orchestration, self-heal, self-learn).
-- `test/` — Comprehensive unit and integration test suites.
-- `setup.sh` / `setup.ps1` — Automated cross-platform setup scripts.
+Run the comprehensive unit test suite and orchestration stress tests:
+```bash
+npm test
+node test-stress.js
+```
 
 ---
 
 ## 📜 License
 
-MIT License. Built with precision and robustness.
+MIT License. Built with extreme precision, robustness, and zero drift.
