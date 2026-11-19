@@ -7,6 +7,8 @@ import { consensusEngine } from './src/consensus.js';
 import { vault } from './src/vault.js';
 import { failoverMatrix } from './src/failover.js';
 import { mcpServer } from './src/mcp-server.js';
+import { codeGraph } from './src/code-graph.js';
+import { selfEvolve } from './src/self-evolve.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -86,5 +88,16 @@ console.log('✅ Test 10 Passed: Multi-model consensus ensembling verified.');
 const computerTools = mcpServer.listTools().filter(t => t.name.startsWith('computer_'));
 assert.ok(computerTools.length >= 4);
 console.log('✅ Test 11 Passed: Computer Use desktop control tools verified.');
+
+// Test 12: Semantic Code Dependency Graph
+const graph = codeGraph.buildGraph();
+assert.ok(graph.nodeCount >= 10);
+console.log('✅ Test 12 Passed: Semantic code graph successfully mapped.');
+
+// Test 13: Autonomous Self-Evolving Engine
+const mut = selfEvolve.analyzeAndMutate('src/vault.js');
+assert.strictEqual(mut.file, 'src/vault.js');
+assert.strictEqual(mut.optimized, true);
+console.log('✅ Test 13 Passed: Autonomous self-evolving engine verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
