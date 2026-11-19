@@ -19,6 +19,7 @@ import { tokenCache } from './src/token-cache.js';
 import { linterFixer } from './src/linter-fixer.js';
 import { checkpointManager } from './src/checkpoint.js';
 import { schemaAdapter } from './src/schema-adapter.js';
+import { masterOrchestrator } from './src/master-orchestrator.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -182,5 +183,12 @@ console.log('✅ Test 24 Passed: Schema compatibility adapter verified.');
 assert.ok(typeof CONFIG.PORT === 'number');
 assert.ok(CONFIG.PORT >= 31337);
 console.log(`✅ Test 25 Passed: Directory-scoped port isolation verified (Port: ${CONFIG.PORT}).`);
+
+// Test 26: Master Swarm Orchestrator (Directory-Scoped Team Management)
+const status = masterOrchestrator.getSwarmStatus();
+assert.ok(status.instanceId);
+assert.strictEqual(status.workingDirectory, process.cwd());
+assert.ok(status.teamSize === 4);
+console.log('✅ Test 26 Passed: Master swarm orchestrator team management verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
