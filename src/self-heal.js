@@ -38,24 +38,11 @@ class SelfHealEngine {
     try {
       const output = execSync(`lsof -i :${port} -t`, { encoding: 'utf8' }).trim();
       if (output) {
-        const pids = output.split('\n');
-        for (const pid of pids) {
-          if (pid && pid !== process.pid.toString()) {
-            if (CONFIG.DEBUG) {
-              console.log(`[Hydrogen Self-Heal] Reclaiming stale port ${port} (killing PID ${pid})...`);
-            }
-            try {
-              execSync(`kill -9 ${pid}`);
-            } catch (killErr) {
-              if (CONFIG.DEBUG) {
-                console.warn(`[Hydrogen Self-Heal] Failed to kill PID ${pid}:`, killErr.message);
-              }
-            }
-          }
+        if (CONFIG.DEBUG) {
+          console.log(`[Hydrogen Self-Heal] Port ${port} is currently bound. Operating in multi-instance cooperative mode.`);
         }
       }
     } catch (e) {
-      // Fallback: check if netstat or ss is available or let server handle listen error
       if (CONFIG.DEBUG) {
         console.log(`[Hydrogen Self-Heal] Port ${port} check completed.`);
       }
