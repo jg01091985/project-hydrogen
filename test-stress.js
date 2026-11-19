@@ -13,6 +13,8 @@ import { vectorRag } from './src/vector-rag.js';
 import { redTeam } from './src/red-team.js';
 import { grounding } from './src/grounding.js';
 import { memoryLedger } from './src/memory-ledger.js';
+import { urlSentinel } from './src/url-sentinel.js';
+import { selectorResilience } from './src/selector-resilience.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -136,5 +138,15 @@ memoryLedger.recordEpisode('How does vault work?', 'Vault uses AES-256-GCM.');
 const ctx = memoryLedger.retrieveRelevantContext('vault');
 assert.ok(ctx.recentEpisodes.length >= 1);
 console.log('✅ Test 18 Passed: Zero-amnesia memory ledger verified.');
+
+// Test 19: Upstream URL Sentinel & Fallback Heuristics
+const activeUrl = urlSentinel.getActiveEndpoint();
+assert.ok(activeUrl.includes('google.com'));
+console.log('✅ Test 19 Passed: Upstream URL sentinel verified.');
+
+// Test 20: Selector Resilience Engine (Layout Shift Defense)
+const selectors = selectorResilience.getFallbackSelectors('inputBox');
+assert.ok(selectors.length >= 3);
+console.log('✅ Test 20 Passed: Selector resilience fallback engine verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
