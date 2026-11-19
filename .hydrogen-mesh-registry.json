@@ -1,0 +1,8 @@
+{
+  "master_orch_seulno4": {
+    "nodeId": "master_orch_seulno4",
+    "port": 31382,
+    "workingDirectory": "/home/orven/hydrogen",
+    "lastHeartbeat": 1795067074833
+  }
+}

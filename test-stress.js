@@ -23,6 +23,7 @@ import { masterOrchestrator } from './src/master-orchestrator.js';
 import { stealthEvasion } from './src/stealth-evasion.js';
 import { calcEngine } from './src/calculator-engine.js';
 import { instanceBridge } from './src/instance-bridge.js';
+import { swarmMesh } from './src/swarm-mesh.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -210,5 +211,12 @@ console.log('✅ Test 28 Passed: Scientific calculator engine verified.');
 // Test 29: Inter-Instance Swarm Bridge (Sibling Instance Discovery)
 assert.ok(typeof instanceBridge.scanLocalSwarm === 'function');
 console.log('✅ Test 29 Passed: Inter-instance swarm bridge verified.');
+
+// Test 30: Decentralized Inter-Instance Swarm Mesh Network
+const reg = swarmMesh.registerNode();
+assert.strictEqual(reg.registered, true);
+const peers = swarmMesh.discoverPeers();
+assert.ok(Array.isArray(peers));
+console.log('✅ Test 30 Passed: Decentralized inter-instance swarm mesh verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
