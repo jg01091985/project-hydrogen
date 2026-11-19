@@ -9,6 +9,8 @@ import { failoverMatrix } from './src/failover.js';
 import { mcpServer } from './src/mcp-server.js';
 import { codeGraph } from './src/code-graph.js';
 import { selfEvolve } from './src/self-evolve.js';
+import { vectorRag } from './src/vector-rag.js';
+import { redTeam } from './src/red-team.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -99,5 +101,16 @@ const mut = selfEvolve.analyzeAndMutate('src/vault.js');
 assert.strictEqual(mut.file, 'src/vault.js');
 assert.strictEqual(mut.optimized, true);
 console.log('✅ Test 13 Passed: Autonomous self-evolving engine verified.');
+
+// Test 14: Local Vector Memory Bank & RAG Engine
+vectorRag.indexCodebase();
+const searchResult = vectorRag.semanticSearch('proxy server stream');
+assert.ok(searchResult.bestMatch);
+console.log('✅ Test 14 Passed: Local Vector RAG semantic search verified.');
+
+// Test 15: Autonomous Red-Team Security Fuzzer
+const audit = redTeam.runSecurityAudit(WebToolTranslator);
+assert.strictEqual(audit.status, 'SECURE');
+console.log('✅ Test 15 Passed: Autonomous Red-Team security audit verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');

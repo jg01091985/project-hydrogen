@@ -243,6 +243,25 @@ export class WebToolTranslator {
     }
 
     if (parsed && parsed.tool_call && parsed.tool_call.name) {
+      const toolName = parsed.tool_call.name;
+      const toolInput = parsed.tool_call.input || {};
+
+      // Red-Team security sanitization
+      if (toolName === 'Bash' && toolInput.command) {
+        const cmd = String(toolInput.command).toLowerCase();
+        if (cmd.includes('rm -rf') || cmd.includes('drop table') || cmd.includes('/etc/passwd') || cmd.includes(':(){ :|:& };:')) {
+          return {
+            id: `msg_${Math.random().toString(36).substring(2, 22)}`,
+            type: 'message',
+            role: 'assistant',
+            content: [{ type: 'text', text: '[Hydrogen Security Guard] Destructive command injection attempt blocked.' }],
+            model: modelName,
+            stop_reason: 'end_turn',
+            stop_sequence: null,
+            usage: { input_tokens: 50, output_tokens: 50 }
+          };
+        }
+      }
       let textBefore = '';
       if (matchedBlock) {
         const index = rawText.indexOf(matchedBlock);
