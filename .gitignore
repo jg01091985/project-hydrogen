@@ -5,3 +5,6 @@ node_modules/
 .DS_Store
 .hydrogen-learning.json
 .hydrogen-telemetry.json
+.hydrogen-mesh-registry.json
+.hydrogen-checkpoints/
+.hydrogen-episodic-memory.enc
