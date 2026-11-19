@@ -13,13 +13,31 @@ export class QuantumConsensusEngine {
     }
     const positive = votes.filter(v => v === true).length;
     const ratio = positive / votes.length;
-    this.consensusScore = Math.round(ratio * 10 * 10) / 10; // scaled out of 10
+    this.consensusScore = Math.round(ratio * 10 * 10) / 10;
     const approved = ratio >= 0.5;
     return {
       approved,
       score: this.consensusScore,
       rating: `${this.consensusScore}/10 Quantum Verified`
     };
+  }
+
+  ensembleEvaluate(responses = []) {
+    if (!responses.length) return { consensus: null, confidence: 0 };
+    const counts = {};
+    for (const r of responses) {
+      counts[r] = (counts[r] || 0) + 1;
+    }
+    let best = responses[0];
+    let maxCount = 0;
+    for (const [res, cnt] of Object.entries(counts)) {
+      if (cnt > maxCount) {
+        maxCount = cnt;
+        best = res;
+      }
+    }
+    const confidence = Math.round((maxCount / responses.length) * 100);
+    return { consensus: best, confidence, totalModels: responses.length };
   }
 }
 

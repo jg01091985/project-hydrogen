@@ -3,6 +3,10 @@ import { antiBot } from './src/anti-bot.js';
 import { CONFIG } from './src/config.js';
 import { selfLearn } from './src/self-learn.js';
 import { orchestration } from './src/orchestration.js';
+import { consensusEngine } from './src/consensus.js';
+import { vault } from './src/vault.js';
+import { failoverMatrix } from './src/failover.js';
+import { mcpServer } from './src/mcp-server.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -45,10 +49,37 @@ assert.ok(Array.isArray(orchStatus.workers));
 console.log('✅ Test 5 Passed: Subagent orchestration engine verified.');
 
 // Test 6: Quantum Consensus Engine
-import { consensusEngine } from './src/consensus.js';
 const consensusResult = consensusEngine.evaluateConsensus([true, true, true, false, true]);
 assert.strictEqual(consensusResult.approved, true);
 assert.strictEqual(consensusResult.rating, '8/10 Quantum Verified');
 console.log('✅ Test 6 Passed: Quantum consensus verification passed.');
+
+// Test 7: AES-256-GCM Vault Encryption & Decryption
+const secretData = 'super-secret-browser-cookies-12345';
+const encrypted = vault.encrypt(secretData);
+assert.ok(encrypted.iv);
+assert.ok(encrypted.encrypted);
+assert.ok(encrypted.tag);
+const decrypted = vault.decrypt(encrypted);
+assert.strictEqual(decrypted, secretData);
+console.log('✅ Test 7 Passed: AES-256-GCM Vault encryption/decryption verified.');
+
+// Test 8: Failover Matrix Circuit Breaker
+failoverMatrix.recordFailure();
+failoverMatrix.recordFailure();
+failoverMatrix.recordFailure();
+assert.strictEqual(failoverMatrix.getStatus().state, 'OPEN');
+console.log('✅ Test 8 Passed: Failover matrix circuit breaker verified.');
+
+// Test 9: Native MCP Server Plugin
+const tools = mcpServer.listTools();
+assert.ok(tools.length >= 2);
+console.log('✅ Test 9 Passed: Native MCP server tool registry verified.');
+
+// Test 10: Multi-model consensus ensembling
+const ensemble = consensusEngine.ensembleEvaluate(['output_A', 'output_A', 'output_B']);
+assert.strictEqual(ensemble.consensus, 'output_A');
+assert.strictEqual(ensemble.confidence, 67);
+console.log('✅ Test 10 Passed: Multi-model consensus ensembling verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
