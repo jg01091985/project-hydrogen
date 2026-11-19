@@ -42,6 +42,7 @@ import { meshCrypto } from './src/mesh-crypto.js';
 import { lspBridge } from './src/lsp-bridge.js';
 import { astRefactor } from './src/ast-refactor.js';
 import { universalRunner } from './src/universal-runner.js';
+import { astPatcher } from './src/ast-patcher.js';
 import assert from 'assert';
 import fs from 'fs';
 
@@ -378,14 +379,19 @@ console.log('✅ Test 47 Passed: End-to-end encrypted swarm mesh verified.');
 			assert.ok(crossCmds.windowsPowerShell.includes('Set-Location'));
 			console.log('✅ Test 52 Passed: Universal project runner & cross-platform path hardening verified.');
 
-console.log('\n🎉 All 52 Hydrogen AGI & orchestration tests passed successfully without gaps!');
+			// Test 53: AST Patcher Frictionless Code Injection Guard
+			const patchRes = astPatcher.injectImportAndTest("src/universal-runner.js", "import os from 'os';", "// test patch snippet");
+			assert.strictEqual(patchRes.success, true);
+			console.log('✅ Test 53 Passed: AST patcher frictionless code injection verified.');
+
+console.log('\n🎉 All 53 Hydrogen AGI & orchestration tests passed successfully without gaps!');
 
 try {
   const statePath = './.hydrogen/loop/state.json';
   if (fs.existsSync(statePath)) {
     const state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
     state.cycle_id += 1;
-    state.test_status = { total: 52, passed: 52, failed: 0 };
+    state.test_status = { total: 53, passed: 53, failed: 0 };
     state.last_changes.unshift({
       cycle_id: state.cycle_id,
       task: "Automated test telemetry sync & multi-cycle hardening via test-stress.js",
