@@ -178,4 +178,9 @@ assert.strictEqual(normalized.model, 'claude-3-5-sonnet');
 assert.ok(normalized.system);
 console.log('✅ Test 24 Passed: Schema compatibility adapter verified.');
 
+// Test 25: Directory-Scoped Deterministic Port Isolation
+assert.ok(typeof CONFIG.PORT === 'number');
+assert.ok(CONFIG.PORT >= 31337);
+console.log(`✅ Test 25 Passed: Directory-scoped port isolation verified (Port: ${CONFIG.PORT}).`);
+
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');

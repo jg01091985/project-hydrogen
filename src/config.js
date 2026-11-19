@@ -1,12 +1,20 @@
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 dotenv.config();
+
+function computeDirectoryPort(basePort = 31337) {
+  const cwd = process.cwd();
+  const hash = crypto.createHash('md5').update(cwd).digest('hex');
+  const offset = parseInt(hash.substring(0, 4), 16) % 1000;
+  return basePort + offset;
+}
 
 function parsePort(val) {
   const parsed = parseInt(val, 10);
   if (Number.isInteger(parsed) && parsed > 0 && parsed <= 65535) {
     return parsed;
   }
-  return 31337;
+  return computeDirectoryPort(31337);
 }
 
 function parsePositiveInt(val, defaultVal) {
