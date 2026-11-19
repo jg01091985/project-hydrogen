@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="claude:viewport-fit-sides" content="cover">
-  <title>Hydrogen vs Claudeep Scorecard</title>
+  <title>Hydrogen vs Reference Engine Scorecard</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <style>
@@ -19,7 +19,7 @@
       --accent: #3b82f6;
       --accent-glow: rgba(59, 130, 246, 0.2);
       --hydrogen-color: #10b981;
-      --claudeep-color: #8b5cf6;
+      --reference-color: #8b5cf6;
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
@@ -37,7 +37,7 @@
         --accent: #2563eb;
         --accent-glow: rgba(37, 99, 235, 0.15);
         --hydrogen-color: #059669;
-        --claudeep-color: #7c3aed;
+        --reference-color: #7c3aed;
         color-scheme: light;
       }
     }
@@ -52,7 +52,7 @@
       --accent: #2563eb;
       --accent-glow: rgba(37, 99, 235, 0.15);
       --hydrogen-color: #059669;
-      --claudeep-color: #7c3aed;
+      --reference-color: #7c3aed;
       color-scheme: light;
     }
 
@@ -66,7 +66,7 @@
       --accent: #3b82f6;
       --accent-glow: rgba(59, 130, 246, 0.2);
       --hydrogen-color: #10b981;
-      --claudeep-color: #8b5cf6;
+      --reference-color: #8b5cf6;
       color-scheme: dark;
     }
 
@@ -176,7 +176,7 @@
     }
 
     .score-hydrogen { color: var(--hydrogen-color); }
-    .score-claudeep { color: var(--claudeep-color); }
+    .score-reference { color: var(--reference-color); }
 
     .tabs {
       display: flex;
@@ -259,7 +259,7 @@
     }
 
     .pill-green { background: rgba(16, 185, 129, 0.15); color: var(--hydrogen-color); }
-    .pill-purple { background: rgba(139, 92, 246, 0.15); color: var(--claudeep-color); }
+    .pill-purple { background: rgba(139, 92, 246, 0.15); color: var(--reference-color); }
 
     .chart-container {
       position: relative;
@@ -280,7 +280,7 @@
 <div class="container">
   <header>
     <div>
-      <h1>Hydrogen vs Claudeep Scorecard</h1>
+      <h1>Hydrogen vs Reference Engine Scorecard</h1>
       <div class="subtitle">Comprehensive Multi-Dimensional Enterprise Benchmark & Capability Audit</div>
     </div>
     <div class="badges">
@@ -297,14 +297,14 @@
       <div class="subtitle" style="margin-top: 8px;">Brutally Honest Enterprise Audit</div>
     </div>
     <div class="card">
-      <div class="card-title">DeepClaude Bridge Score</div>
-      <div class="card-value score-claudeep">97.4 / 100</div>
+      <div class="card-title">Reference Baseline Score</div>
+      <div class="card-value score-reference">97.4 / 100</div>
       <div class="subtitle" style="margin-top: 8px;">DeepSeek Browser Bridge & 2nd Brain</div>
     </div>
     <div class="card">
       <div class="card-title">Comparative Edge</div>
       <div class="card-value" style="color: var(--accent);">+0.6 Delta</div>
-      <div class="subtitle" style="margin-top: 8px;">Claudeep leads via 4-field memory & stealth</div>
+      <div class="subtitle" style="margin-top: 8px;">Reference Engine leads via 4-field memory & stealth</div>
     </div>
   </div>
 
@@ -323,7 +323,7 @@
             <th>Evaluation Dimension / Line Item</th>
             <th>Weight</th>
             <th>Project Hydrogen</th>
-            <th>DeepClaude Bridge</th>
+            <th>Reference Baseline</th>
             <th>Justification & Strategic Edge</th>
           </tr>
         </thead>
@@ -368,7 +368,7 @@
             <td>20%</td>
             <td><span class="score-pill pill-green">9.7 / 10</span></td>
             <td><span class="score-pill pill-purple">9.9 / 10</span></td>
-            <td>Claudeep passes 21/21 comprehensive TAP tests covering circuit breakers, truncation, secret redaction, idempotency, backoff, and 4-field learning.</td>
+            <td>Reference Engine passes 21/21 comprehensive TAP tests covering circuit breakers, truncation, secret redaction, idempotency, backoff, and 4-field learning.</td>
           </tr>
         </tbody>
       </table>
@@ -380,11 +380,11 @@
     <div style="display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center;">
       <div>
         <p style="color: var(--text-muted); line-height: 1.6;">
-          This comparative radar analysis evaluates Project Hydrogen and Claudeep across 6 core enterprise dimensions. Claudeep edges out slightly in self-learning (due to the strict 4-field Chief directive integration) and anti-bot stealth hardening, while Hydrogen provides exceptional native SDK multi-model routing.
+          This comparative radar analysis evaluates Project Hydrogen and Reference Engine across 6 core enterprise dimensions. Reference Engine edges out slightly in self-learning (due to the strict 4-field Chief directive integration) and anti-bot stealth hardening, while Hydrogen provides exceptional native SDK multi-model routing.
         </p>
         <ul style="color: var(--text-muted); line-height: 1.8; margin-top: 12px;">
           <li><strong>Project Hydrogen (Overall: 96.8%)</strong>: Best-in-class multi-model SDK routing, parallel worker orchestration, and automated compaction.</li>
-          <li><strong>DeepClaude Bridge (Overall: 97.4%)</strong>: Pinnacle of autonomous browser bridging, anti-bot evasion, and empirically audited second-brain learning.</li>
+          <li><strong>Reference Baseline (Overall: 97.4%)</strong>: Pinnacle of autonomous browser bridging, anti-bot evasion, and empirically audited second-brain learning.</li>
         </ul>
       </div>
       <div class="chart-container">
@@ -418,7 +418,7 @@
   </div>
 
   <div class="footer-note">
-    Project Hydrogen Extreme & Claudeep Scorecard • Zero Drift • Empirically Audited • Ultracode Active
+    Project Hydrogen Extreme & Reference Engine Scorecard • Zero Drift • Empirically Audited • Ultracode Active
   </div>
 </div>
 
@@ -448,7 +448,7 @@
               borderWidth: 2
             },
             {
-              label: 'DeepClaude Bridge',
+              label: 'Reference Baseline',
               data: [9.5, 9.9, 9.8, 9.6, 9.7, 9.9],
               backgroundColor: 'rgba(139, 92, 246, 0.2)',
               borderColor: '#8b5cf6',

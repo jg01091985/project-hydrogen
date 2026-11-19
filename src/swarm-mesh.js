@@ -11,7 +11,7 @@ class SwarmMeshNetwork {
     this.peers = new Map();
   }
 
-  registerNode() {
+  registerNode(timeoutMs = 45000) {
     try {
       let registry = {};
       if (fs.existsSync(this.registryPath)) {
@@ -27,12 +27,12 @@ class SwarmMeshNetwork {
       };
       const now = Date.now();
       for (const [id, info] of Object.entries(registry)) {
-        if (now - info.lastHeartbeat > 60000) {
+        if (now - info.lastHeartbeat > timeoutMs) {
           delete registry[id];
         }
       }
       fs.writeFileSync(this.registryPath, JSON.stringify(registry, null, 2));
-      return { registered: true, activeNodes: Object.keys(registry).length };
+      return { registered: true, activeNodes: Object.keys(registry).length, timeoutMs };
     } catch (err) {
       return { registered: false, error: err.message };
     }
