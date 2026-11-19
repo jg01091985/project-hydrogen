@@ -20,6 +20,7 @@ import { linterFixer } from './src/linter-fixer.js';
 import { checkpointManager } from './src/checkpoint.js';
 import { schemaAdapter } from './src/schema-adapter.js';
 import { masterOrchestrator } from './src/master-orchestrator.js';
+import { stealthEvasion } from './src/stealth-evasion.js';
 import assert from 'assert';
 
 console.log('🧪 Running Hydrogen Enterprise AGI & Orchestration Stress Tests...\n');
@@ -190,5 +191,13 @@ assert.ok(status.instanceId);
 assert.strictEqual(status.workingDirectory, process.cwd());
 assert.ok(status.teamSize === 4);
 console.log('✅ Test 26 Passed: Master swarm orchestrator team management verified.');
+
+// Test 27: Military-Grade Stealth Evasion Engine
+const script = stealthEvasion.getEvasionScript();
+assert.ok(script.includes('navigator, \'webdriver\''));
+assert.ok(script.includes('toDataURL'));
+const jitter = stealthEvasion.generateHumanJitter();
+assert.ok(jitter >= 75 && jitter <= 225);
+console.log('✅ Test 27 Passed: Military-grade stealth evasion engine verified.');
 
 console.log('\n🎉 All Hydrogen AGI & orchestration tests passed successfully without gaps!');
