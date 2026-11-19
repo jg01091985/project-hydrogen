@@ -41,6 +41,7 @@ import { audioFontStealth } from './src/audio-font-stealth.js';
 import { meshCrypto } from './src/mesh-crypto.js';
 import { lspBridge } from './src/lsp-bridge.js';
 import { astRefactor } from './src/ast-refactor.js';
+import { universalRunner } from './src/universal-runner.js';
 import assert from 'assert';
 import fs from 'fs';
 
@@ -368,14 +369,23 @@ console.log('✅ Test 47 Passed: End-to-end encrypted swarm mesh verified.');
 		assert.strictEqual(lspFuzz.diagnostics.status, 'CLEAN');
 		console.log('✅ Test 51 Passed: LSP bridge automated diagnostics fuzzing verified.');
 
-console.log('\n🎉 All 51 Hydrogen AGI & orchestration tests passed successfully without gaps!');
+			// Test 52: Universal Project Root & Cross-Platform Runner Hardening
+			const rootRes = universalRunner.resolveTargetProjectRoot(process.cwd());
+			assert.strictEqual(rootRes.success, true);
+			assert.strictEqual(rootRes.hasPackageJson, true);
+			const crossCmds = universalRunner.generateCrossPlatformRunCommand(rootRes.projectRoot);
+			assert.ok(crossCmds.linux.includes('npm start'));
+			assert.ok(crossCmds.windowsPowerShell.includes('Set-Location'));
+			console.log('✅ Test 52 Passed: Universal project runner & cross-platform path hardening verified.');
+
+console.log('\n🎉 All 52 Hydrogen AGI & orchestration tests passed successfully without gaps!');
 
 try {
   const statePath = './.hydrogen/loop/state.json';
   if (fs.existsSync(statePath)) {
     const state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
     state.cycle_id += 1;
-    state.test_status = { total: 51, passed: 51, failed: 0 };
+    state.test_status = { total: 52, passed: 52, failed: 0 };
     state.last_changes.unshift({
       cycle_id: state.cycle_id,
       task: "Automated test telemetry sync & multi-cycle hardening via test-stress.js",
