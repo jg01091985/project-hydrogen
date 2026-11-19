@@ -1,8 +1,8 @@
 {
-  "master_orch_rqg1in5": {
-    "nodeId": "master_orch_rqg1in5",
+  "master_orch_imuwebp": {
+    "nodeId": "master_orch_imuwebp",
     "port": 31382,
     "workingDirectory": "/home/orven/hydrogen",
-    "lastHeartbeat": 1795067487007
+    "lastHeartbeat": 1795070730284
   }
 }
