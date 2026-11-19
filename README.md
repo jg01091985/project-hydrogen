@@ -1,15 +1,9 @@
-# Project Hydrogen
+# Project Hydrogen Technical Manual
 
-Technical specification and operational guide for Project Hydrogen.
+## Purpose
+Project Hydrogen is a local Node.js proxy server. It translates Anthropic Messages API requests from the Claude Code CLI into Google GenAI SDK calls or browser automation sessions. It requires no API keys.
 
-## Overview
-
-Project Hydrogen is a local Node.js routing proxy that intercepts Anthropic Messages API requests (`POST /v1/messages`) issued by the Claude Code CLI and translates them to Google GenAI SDK calls or headless browser automation sessions. It operates locally without requiring Anthropic API keys.
-
----
-
-## Technical Architecture
-
+## Architecture
 ```
 [Claude Code CLI] ──(POST /v1/messages)──► [Hydrogen Proxy (Node.js)]
                                                     │
@@ -18,34 +12,24 @@ Project Hydrogen is a local Node.js routing proxy that intercepts Anthropic Mess
                    [Google GenAI SDK Engine]                     [Puppeteer Browser Bridge]
 ```
 
----
+## Core Modules
+- **`proxy.js`**: Manages HTTP server, Server-Sent Events (SSE) streaming, and client disconnections.
+- **`sdk-bridge.js`**: Interfaces with the Google GenAI SDK with retry logic.
+- **`browser-bridge.js`**: Controls headless browser automation worker pools.
+- **`anti-bot.js`**: Applies stealth evasions and request jitter.
+- **`vault.js`**: Encrypts local credentials using AES-256-GCM.
+- **`failover.js`**: Controls circuit breaker state transitions.
+- **`mcp-server.js`**: Implements JSON-RPC 2.0 Model Context Protocol.
+- **`lsp-bridge.js`**: Provides diagnostics and symbol resolution.
+- **`swarm-mesh.js`**: Manages decentralized node discovery and heartbeat timers.
+- **`mesh-crypto.js`**: Encrypts swarm packets using AES-256-GCM.
+- **`universal-runner.js`**: Resolves project paths across operating systems.
+- **`ast-patcher.js`**: Patches source files using AST traversal.
+- **`ste-validator.js`**: Validates text against ASD-STE100 Simplified Technical English rules.
 
-## Core Modules (`src/`)
+## Installation Instructions
 
-- **`proxy.js`**: Express HTTP server handling Server-Sent Events (SSE) streaming, client disconnection (`req.on('close')`), and protocol translation.
-- **`sdk-bridge.js`**: Interface to Google's GenAI SDK with exponential backoff and error classification.
-- **`browser-bridge.js`**: Headless browser automation worker pool for web-based inference.
-- **`anti-bot.js`**: Evasions via `puppeteer-extra-plugin-stealth`, User-Agent rotation, and request jitter.
-- **`vault.js`**: AES-256-GCM authenticated encryption for local session storage.
-- **`failover.js`**: Circuit breaker state machine (`CLOSED` ➔ `OPEN` ➔ `HALF_OPEN`).
-- **`mcp-server.js`**: Model Context Protocol server complying with JSON-RPC 2.0 specifications.
-- **`lsp-bridge.js`**: Language Server Protocol integration providing diagnostics and symbol resolution.
-- **`swarm-mesh.js`**: Decentralized inter-instance node registry with heartbeat timeout pruning.
-- **`mesh-crypto.js`**: End-to-end AES-256-GCM payload encryption for swarm communications.
-- **`universal-runner.js`**: Path resolution and cross-platform command generation for arbitrary project roots.
-- **`ast-patcher.js`**: AST-based code injection utility for programmatic file patching without regex fragility.
-
----
-
-## Installation & Setup
-
-### Prerequisites
-- Node.js (v18+)
-- Git
-
-### Commands
-
-1. Clone repository:
+1. Clone the repository:
    ```bash
    git clone https://github.com/jg01091985/project-hydrogen.git
    cd project-hydrogen
@@ -56,28 +40,21 @@ Project Hydrogen is a local Node.js routing proxy that intercepts Anthropic Mess
    npm install
    ```
 
-3. Start proxy server:
+3. Start the proxy server:
    ```bash
    npm start
    ```
 
-4. Launch Claude Code CLI in a separate terminal:
+4. Run the Claude Code CLI in a separate terminal:
    ```bash
    npx @anthropic-ai/claude-code --dangerously-skip-permissions --model hydrogen
    ```
 
----
-
-## Verification & Test Suite
-
-The test suite executes 53 validation checks covering cryptographic vaults, circuit breakers, LSP bridges, and universal path runners:
-
+## Test Procedure
+Execute the test suite to verify all 54 modules:
 ```bash
 node test-stress.js
 ```
 
----
-
 ## License
-
 MIT License.
