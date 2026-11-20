@@ -33,88 +33,100 @@ export class SdkBridge {
     const apiKey = antiBot.getNextApiKey();
     const ai = this.getClient(apiKey);
     const geminiPayload = AnthropicGeminiTranslator.translateRequest(anthropicBody);
-    const geminiModel = CONFIG.GEMINI_MODEL || 'gemini-2.5-pro';
+    const primaryModel = CONFIG.GEMINI_MODEL || 'gemini-4-hydrogen';
+    const modelsToTry = [...new Set([primaryModel, 'gemini-2.5-pro'])];
 
-    let attempts = 0;
     let lastErr = null;
-    while (attempts < CONFIG.MAX_RETRIES) {
-      try {
-        const response = await ai.models.generateContent({
-          model: geminiModel,
-          contents: geminiPayload.contents,
-          config: {
-            ...geminiPayload.generationConfig,
-            systemInstruction: geminiPayload.systemInstruction,
-            tools: geminiPayload.tools
-          }
-        });
-        return AnthropicGeminiTranslator.translateResponse(response, modelName);
-      } catch (err) {
-        lastErr = err;
-        antiBot.reportKeyFailure(apiKey);
+    for (const geminiModel of modelsToTry) {
+      let attempts = 0;
+      while (attempts < CONFIG.MAX_RETRIES) {
+        try {
+          const response = await ai.models.generateContent({
+            model: geminiModel,
+            contents: geminiPayload.contents,
+            config: {
+              ...geminiPayload.generationConfig,
+              systemInstruction: geminiPayload.systemInstruction,
+              tools: geminiPayload.tools
+            }
+          });
+          return AnthropicGeminiTranslator.translateResponse(response, modelName);
+        } catch (err) {
+          lastErr = err;
+          antiBot.reportKeyFailure(apiKey);
 
-        if (!this.isRetryableError(err)) {
-          if (CONFIG.DEBUG) {
-            console.warn('[Hydrogen SdkBridge] Encountered non-retryable error, aborting retries:', err.message);
+          if (!this.isRetryableError(err)) {
+            if (CONFIG.DEBUG) {
+              console.warn(`[Hydrogen SdkBridge] Model ${geminiModel} non-retryable error:`, err.message);
+            }
+            break;
           }
-          break;
+
+          attempts++;
+          const backoff = Math.min(10000, 300 * Math.pow(2, attempts) + Math.random() * 200);
+          await new Promise(r => setTimeout(r, backoff));
         }
-
-        attempts++;
-        const backoff = Math.min(10000, 300 * Math.pow(2, attempts) + Math.random() * 200);
-        await new Promise(r => setTimeout(r, backoff));
+      }
+      if (CONFIG.DEBUG) {
+        console.warn(`[Hydrogen SdkBridge] Model ${geminiModel} exhausted retries, falling back if available...`);
       }
     }
-    throw lastErr || new Error('SdkBridge generation failed after max retries');
+    throw lastErr || new Error('SdkBridge generation failed across all models after max retries');
   }
 
   async generateContentStream(anthropicBody, modelName = 'hydrogen', onChunk, onComplete) {
     const apiKey = antiBot.getNextApiKey();
     const ai = this.getClient(apiKey);
     const geminiPayload = AnthropicGeminiTranslator.translateRequest(anthropicBody);
-    const geminiModel = CONFIG.GEMINI_MODEL || 'gemini-2.5-pro';
+    const primaryModel = CONFIG.GEMINI_MODEL || 'gemini-4-hydrogen';
+    const modelsToTry = [...new Set([primaryModel, 'gemini-2.5-pro'])];
 
-    let attempts = 0;
     let lastErr = null;
-    while (attempts < CONFIG.MAX_RETRIES) {
-      try {
-        const responseStream = await ai.models.generateContentStream({
-          model: geminiModel,
-          contents: geminiPayload.contents,
-          config: {
-            ...geminiPayload.generationConfig,
-            systemInstruction: geminiPayload.systemInstruction,
-            tools: geminiPayload.tools
-          }
-        });
+    for (const geminiModel of modelsToTry) {
+      let attempts = 0;
+      while (attempts < CONFIG.MAX_RETRIES) {
+        try {
+          const responseStream = await ai.models.generateContentStream({
+            model: geminiModel,
+            contents: geminiPayload.contents,
+            config: {
+              ...geminiPayload.generationConfig,
+              systemInstruction: geminiPayload.systemInstruction,
+              tools: geminiPayload.tools
+            }
+          });
 
-        let accumulatedText = '';
-        for await (const chunk of responseStream) {
-          const text = chunk.text || '';
-          if (text) {
-            accumulatedText += text;
-            if (onChunk) onChunk(text);
+          let accumulatedText = '';
+          for await (const chunk of responseStream) {
+            const text = chunk.text || '';
+            if (text) {
+              accumulatedText += text;
+              if (onChunk) onChunk(text);
+            }
           }
+          if (onComplete) onComplete(accumulatedText);
+          return accumulatedText;
+        } catch (err) {
+          lastErr = err;
+          antiBot.reportKeyFailure(apiKey);
+
+          if (!this.isRetryableError(err)) {
+            if (CONFIG.DEBUG) {
+              console.warn(`[Hydrogen SdkBridge] Model ${geminiModel} non-retryable stream error:`, err.message);
+            }
+            break;
+          }
+
+          attempts++;
+          const backoff = Math.min(10000, 300 * Math.pow(2, attempts) + Math.random() * 200);
+          await new Promise(r => setTimeout(r, backoff));
         }
-        if (onComplete) onComplete(accumulatedText);
-        return accumulatedText;
-      } catch (err) {
-        lastErr = err;
-        antiBot.reportKeyFailure(apiKey);
-
-        if (!this.isRetryableError(err)) {
-          if (CONFIG.DEBUG) {
-            console.warn('[Hydrogen SdkBridge] Encountered non-retryable stream error, aborting retries:', err.message);
-          }
-          break;
-        }
-
-        attempts++;
-        const backoff = Math.min(10000, 300 * Math.pow(2, attempts) + Math.random() * 200);
-        await new Promise(r => setTimeout(r, backoff));
+      }
+      if (CONFIG.DEBUG) {
+        console.warn(`[Hydrogen SdkBridge] Model ${geminiModel} stream exhausted retries, falling back if available...`);
       }
     }
-    throw lastErr || new Error('SdkBridge streaming failed after max retries');
+    throw lastErr || new Error('SdkBridge streaming failed across all models after max retries');
   }
 }
 
