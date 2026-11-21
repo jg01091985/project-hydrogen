@@ -18,6 +18,20 @@ Project Hydrogen is an experimental sovereign AI proxy. It provides zero-cost LL
 
 ---
 
+## Windows & WSL2 Bypass Guide
+To run smoothly on WSL2 and Windows, follow these proven bypass steps:
+
+1. **Headless Display Bypass**: WSL2 and headless servers lack a display server. Always set headless mode to true.
+2. **WSL2 Browser Binary Setup**: WSL2 requires Linux browser dependencies. Run the install command below.
+3. **Profile Lock Clearing**: Browser lock files are purged automatically on server boot.
+
+### WSL2 System Dependencies Setup
+```bash
+sudo apt-get update && sudo apt-get install -y chromium-browser libgbm-dev libnss3 libatk-bridge2.0-0 libcups2 libxcomposite1 libxdamage1 libxrandr2 libxi6 libxtst6 libasound2
+```
+
+---
+
 ## Deployment Guide (Windows, WSL2 & Linux)
 
 ### Option A: Native Windows (PowerShell)
