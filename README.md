@@ -1,87 +1,64 @@
-# Project Hydrogen Technical Manual & Agent Deployment Guide
+# Project Hydrogen Technical Manual
 
 ## Overview
-**Project Hydrogen** is a sovereign, API-less, zero-cost AI inference and orchestration gateway. Designed to replace per-token commercial cloud billing APIs, Hydrogen translates Anthropic Messages API requests into Google GenAI SDK inferences and stealth browser automation sessions (`gemini-4-hydrogen`). It requires no paid API keys.
-
----
-
-## Architecture & Request Routing
-
-```
-[Claude Code CLI / Client] ──(POST /v1/messages)──► [Hydrogen Proxy Server (Node.js)]
-                                                            │
-                                  ┌─────────────────────────┴─────────────────────────┐
-                                  ▼                                                   ▼
-                       [Google GenAI SDK Bridge]                            [Stealth Browser Automation Pool]
-                     (Direct API fallback rotation)                         (Headless Chrome over Google Free Web AI)
-```
+Project Hydrogen is an experimental sovereign AI proxy. It provides zero-cost LLM inference without paid API keys. It translates client requests into Google GenAI SDK calls and stealth browser sessions.
 
 ---
 
 ## Core Modules
-
-- **`proxy.js`**: HTTP server, Server-Sent Events (SSE) streaming, client disconnections.
-- **`sdk-bridge.js`**: Primary inference execution via Google GenAI SDK (`gemini-4-hydrogen`) with automated fallback (`gemini-2.5-pro`).
-- **`browser-bridge.js`**: Stealth browser worker pool with anti-bot evasion, jitter injection, and `--disable-dev-shm-usage` / `--no-sandbox` flags for WSL2/Linux hardening.
-- **`computer-use.js`**: Cross-platform browser automation controller respecting headless environment detection (`WSL2`, `CI`, missing `DISPLAY`).
-- **`anti-bot.js`**: Fingerprint spoofing, canvas/WebGL noise injection, and behavioral pacing.
-- **`vault.js`**: AES-256-GCM cryptographic credential storage.
-- **`failover.js`**: Circuit breaker state transition matrix.
-- **`mcp-server.js`**: JSON-RPC 2.0 Model Context Protocol server.
-- **`lsp-bridge.js`**: Diagnostic symbol resolution and AST patching.
-- **`swarm-mesh.js`**: Decentralized node discovery and cryptographic heartbeat.
-- **`ste-validator.js`**: ASD-STE100 Simplified Technical English compliance validator.
+- **`proxy.js`**: Manages HTTP server and Server-Sent Events.
+- **`sdk-bridge.js`**: Interfaces with Google GenAI SDK with fallback rotation.
+- **`browser-bridge.js`**: Controls browser worker pools with stealth evasion and Singleton lock cleanup.
+- **`computer-use.js`**: Handles cross-platform browser automation across Linux, WSL2, and Windows.
+- **`anti-bot.js`**: Applies fingerprint noise and request jitter.
+- **`vault.js`**: Encrypts local credentials using AES-256-GCM.
+- **`failover.js`**: Controls circuit breaker state transitions.
+- **`mcp-server.js`**: Implements JSON-RPC Model Context Protocol.
+- **`ste-validator.js`**: Validates text against ASD-STE100 rules.
 
 ---
 
-## Agent Deployment Protocol (For Autonomous Agents)
+## Deployment Guide (Windows, WSL2 & Linux)
 
-When an autonomous agent or deployment bot initializes Project Hydrogen on a target machine (including WSL2 or headless Linux servers), execute the following initialization sequence:
+### Option A: Native Windows (PowerShell)
+1. Clone the repository:
+   ```powershell
+   git clone https://github.com/jg01091985/project-hydrogen.git
+   cd project-hydrogen
+   ```
+2. Install dependencies:
+   ```powershell
+   npm install
+   ```
+3. Start proxy server:
+   ```powershell
+   $env:HEADLESS="true"
+   npm start
+   ```
 
-### Step 1: Environment Preparation & Repository Clone
-```bash
-git clone https://github.com/jg01091985/project-hydrogen.git
-cd project-hydrogen
-```
+### Option B: WSL2 & Linux Headless
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jg01091985/project-hydrogen.git
+   cd project-hydrogen
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start proxy server:
+   ```bash
+   export HEADLESS=true
+   npm start
+   ```
 
-### Step 2: Dependency Installation
-```bash
-npm install
-```
+---
 
-### Step 3: Hardened Execution (WSL2 / Linux Headless)
-To prevent GUI display errors and shared memory crashes in WSL2 or headless environments, ensure headless mode and sandbox restrictions are active:
-```bash
-export HEADLESS=true
-export HYDROGEN_DEBUG=true
-npm start
-```
-
-### Step 4: Verification & Stress Testing
+## Verification
+Execute the test suite to verify all modules:
 ```bash
 node test-stress.js
 ```
-
----
-
-## Service Specification (`POST /v1/messages`)
-
-**Request Headers:**
-```http
-Content-Type: application/json
-```
-
-**Request Body:**
-```json
-{
-  "model": "gemini-4-hydrogen",
-  "messages": [
-    { "role": "user", "content": "System operational check." }
-  ]
-}
-```
-
----
 
 ## License
 MIT License.

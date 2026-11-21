@@ -26,7 +26,18 @@ class BrowserWorkerPool {
   async init() {
     if (this.isInitialized && this.browser) return;
 
-    if (!fs.existsSync(this.profileDir)) {
+    if (fs.existsSync(this.profileDir)) {
+      try {
+        const files = fs.readdirSync(this.profileDir);
+        for (const file of files) {
+          if (file.startsWith('Singleton')) {
+            try {
+              fs.unlinkSync(path.join(this.profileDir, file));
+            } catch (e) {}
+          }
+        }
+      } catch (e) {}
+    } else {
       try {
         fs.mkdirSync(this.profileDir, { recursive: true });
       } catch (e) {}
