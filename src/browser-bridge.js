@@ -35,6 +35,8 @@ class BrowserWorkerPool {
     const launchArgs = [
       '--no-sandbox',
       '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
       '--disable-infobars',
       '--window-size=1440,900',
       '--disable-blink-features=AutomationControlled',

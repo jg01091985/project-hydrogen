@@ -1,5 +1,6 @@
 import { chromium } from 'playwright';
 import path from 'path';
+import { CONFIG } from './config.js';
 
 class ComputerUseController {
   constructor() {
@@ -10,7 +11,19 @@ class ComputerUseController {
 
   async initialize() {
     if (!this.browser) {
-      this.browser = await chromium.launch({ headless: false });
+      const isHeadless = CONFIG.HEADLESS !== false || process.env.CI || process.env.WSL_INTEROP || process.env.WSL_DISTRO_NAME || !process.env.DISPLAY;
+      const launchArgs = [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-infobars',
+        '--disable-blink-features=AutomationControlled'
+      ];
+      this.browser = await chromium.launch({
+        headless: isHeadless,
+        args: launchArgs
+      });
       this.context = await this.browser.newContext({
         viewport: { width: 1280, height: 800 }
       });
