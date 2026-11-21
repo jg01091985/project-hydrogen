@@ -16,7 +16,6 @@ npm install
 Write-Host ""
 Write-Host "🎉 Project Hydrogen setup completed successfully!" -ForegroundColor Green
 Write-Host ""
-Write-Host "To run Project Hydrogen with Claude Code CLI:" -ForegroundColor Yellow
-Write-Host "  npx @anthropic-ai/claude-code --dangerously-skip-permissions --model hydrogen" -ForegroundColor White
-Write-Host "Or use the custom CLI wrapper:" -ForegroundColor Yellow
+Write-Host "To run Project Hydrogen on Windows:" -ForegroundColor Yellow
+Write-Host "  $env:HEADLESS=`"true`"" -ForegroundColor White
 Write-Host "  npm start" -ForegroundColor White
